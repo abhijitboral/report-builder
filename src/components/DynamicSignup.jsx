@@ -27,6 +27,7 @@ const DynamcSignup = () => {
 				<img src={logo} alt="Logo" style={{ width: 80, marginBottom: 16 }} />
 				<Title level={2} style={{ margin: 0 }}>
 					<span style={{ fontWeight: "bold" }}>Report</span> Builder
+					<br /> <span style={{ letterSpacing: 4 }}>Create a new account</span>
 				</Title>
 			</div>
 
@@ -67,6 +68,11 @@ const DynamcSignup = () => {
 						]}>
 						<Input.Password placeholder="Password" size="large" />
 					</Form.Item>
+					<Form.Item
+						name="confirm_password"
+						rules={[{ required: true, message: "Must be match Password!" }]}>
+						<Input.Password placeholder="Confirm Password" size="large" />
+					</Form.Item>
 
 					<Form.Item>
 						<Button
@@ -75,7 +81,7 @@ const DynamcSignup = () => {
 							block
 							size="large"
 							style={{ backgroundColor: "#d63d52", borderColor: "#d63d52" }}>
-							Login
+							Create new account
 						</Button>
 					</Form.Item>
 
@@ -85,10 +91,7 @@ const DynamcSignup = () => {
 							justifyContent: "space-between",
 							alignItems: "center",
 							marginBottom: 16,
-						}}>
-						<Checkbox>Remember Me</Checkbox>
-						<Link href="#">Reset Password</Link>
-					</div>
+						}}></div>
 				</Form>
 			</div>
 		</div>

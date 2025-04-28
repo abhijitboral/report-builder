@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { Form, Input, Button, Checkbox, Typography, Space } from "antd";
 import logo from "../assets/react.svg";
 
@@ -79,7 +80,7 @@ const DynamcLogin = () => {
 							alignItems: "center",
 							marginBottom: 16,
 						}}>
-						<Link href="#">Create a new account</Link>
+						<NavLink to="/signup">Create a new account</NavLink>
 						<Link href="#">Reset Password</Link>
 					</div>
 				</Form>
