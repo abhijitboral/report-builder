@@ -1,5 +1,6 @@
 import React from "react";
 import { Layout } from "antd";
+import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import DynamicHeader from "./DynamicHeader";
 import DynamicContent from "./DynamicContent";
@@ -10,7 +11,7 @@ const DynamicLayout = () => {
 			<Sidebar />
 			<Layout className="site-layout">
 				<DynamicHeader />
-				<DynamicContent />
+				<Outlet />
 			</Layout>
 		</Layout>
 	);
