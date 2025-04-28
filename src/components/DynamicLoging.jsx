@@ -50,6 +50,7 @@ const DynamcLogin = () => {
 						name="email"
 						rules={[
 							{ required: true, message: "Please input your Email Address!" },
+							{ type: "email", message: "The input is not valid E-mail!" },
 						]}>
 						<Input placeholder="Email Address" size="large" />
 					</Form.Item>

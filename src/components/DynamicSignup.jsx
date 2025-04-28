@@ -4,13 +4,13 @@ import logo from "../assets/react.svg";
 
 const { Link, Title } = Typography;
 const DynamcSignup = () => {
-	/* const onFinish = (values) => {
+	const onFinish = (values) => {
 		console.log("Success:", values);
 	};
 
 	const onFinishFailed = (errorInfo) => {
 		console.log("Failed:", errorInfo);
-	}; */
+	};
 	return (
 		<div
 			style={{
@@ -43,20 +43,21 @@ const DynamcSignup = () => {
 				<Form
 					name="login"
 					initialValues={{ remember: true }}
-					/* onFinish={onFinish} */
-					/* onFinishFailed={onFinishFailed} */
+					onFinish={onFinish}
+					onFinishFailed={onFinishFailed}
 					layout="vertical">
 					<Form.Item
 						name="username"
 						rules={[
-							{ required: true, message: "Please input your Username!" },
+							{ required: true, message: "Please enter your Username!" },
 						]}>
 						<Input placeholder="Username" size="large" />
 					</Form.Item>
 					<Form.Item
 						name="email"
 						rules={[
-							{ required: true, message: "Please input your Email Address!" },
+							{ required: true, message: "Please enter your Email Address!" },
+							{ type: "email", message: "The input is not valid E-mail!" },
 						]}>
 						<Input placeholder="Email Address" size="large" />
 					</Form.Item>
@@ -64,13 +65,24 @@ const DynamcSignup = () => {
 					<Form.Item
 						name="password"
 						rules={[
-							{ required: true, message: "Please input your Password!" },
+							{ required: true, message: "Please enter your Password!" },
 						]}>
 						<Input.Password placeholder="Password" size="large" />
 					</Form.Item>
 					<Form.Item
 						name="confirm_password"
-						rules={[{ required: true, message: "Must be match Password!" }]}>
+						dependencies={["password"]}
+						rules={[
+							{ required: true, message: "Please enter Confirm Password!" },
+							({ getFieldValue }) => ({
+								validator(_, value) {
+									if (!value || getFieldValue("password") === value) {
+										return Promise.resolve();
+									}
+									return Promise.reject(new Error("Passwords do not match!"));
+								},
+							}),
+						]}>
 						<Input.Password placeholder="Confirm Password" size="large" />
 					</Form.Item>
 
