@@ -26,7 +26,7 @@ const Sidebar = () => {
 					<h1 style={{ color: "#fff", margin: 0 }}>Report Builder</h1>
 				)}
 			</div>
-			{/* <DynamicMenu /> */}
+			<DynamicMenu />
 			{/* <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
 						<MenuItem key="1" icon={<DashboardOutlined />}>
 							Dashboard
