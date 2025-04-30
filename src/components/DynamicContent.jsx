@@ -53,7 +53,7 @@ const DynamicContent = () => {
 	const tabItems = [
 		{
 			key: "1",
-			label: "Grid",
+			label: "Tree",
 			children: (
 				<Table
 					dataSource={tableData}
@@ -62,11 +62,11 @@ const DynamicContent = () => {
 				/>
 			),
 		},
-		{
+		/* {
 			key: "2",
 			label: "List",
 			children: "Content of Tab 2",
-		},
+		}, */
 	];
 	return (
 		<Content

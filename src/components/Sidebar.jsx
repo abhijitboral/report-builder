@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 const { Sider } = Layout;
 
 const Sidebar = () => {
-	const [collapsed, setCollapsed] = useState(false);
+	const [collapsed, setCollapsed] = useState(true);
 	return (
 		<>
 			<Sider
