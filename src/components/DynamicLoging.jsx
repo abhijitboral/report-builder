@@ -1,17 +1,63 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import { Form, Input, Button, Checkbox, Typography, Space } from "antd";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import {
+	Form,
+	Input,
+	Button,
+	Checkbox,
+	Typography,
+	Space,
+	message,
+} from "antd";
 import logo from "../assets/react.svg";
 
 const { Link, Title } = Typography;
 const DynamcLogin = () => {
-	const onFinish = (values) => {
-		console.log("Success:", values);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
+	const navigate = useNavigate();
+	const onFinish = async (values) => {
+		//console.log("Success:", values);
+		const { email, password } = values;
+		setLoading(true);
+		setError(null); // Reset any previous errors
+		try {
+			// Make the POST request to your login endpoint
+			const response = await axios.post(
+				"http://localhost:3000/api/users/login",
+				{
+					email,
+					password,
+				}
+			);
+
+			// Handle success (e.g., save the token, redirect, etc.)
+			message.success("Login successful!");
+			console.log("Login Successful:", response.data);
+
+			// Save the token in localStorage or sessionStorage
+			localStorage.setItem("authToken", response.data.token);
+			if (response.data.token) {
+				navigate("/dashboard");
+			} else {
+				console.log("not");
+			}
+			// Redirect to the dashboard or home page
+		} catch (error) {
+			setError(error.response ? error.response.data.message : "Login failed");
+			message.error(
+				error.response ? error.response.data.message : "Login failed"
+			);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const onFinishFailed = (errorInfo) => {
 		console.log("Failed:", errorInfo);
 	};
+
 	return (
 		<div
 			style={{
@@ -40,6 +86,7 @@ const DynamcLogin = () => {
 					borderRadius: 16,
 					boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
 				}}>
+				{error && <p style={{ color: "red" }}>{error}</p>}
 				<Form
 					name="login"
 					initialValues={{ remember: true }}
@@ -70,7 +117,7 @@ const DynamcLogin = () => {
 							block
 							size="large"
 							style={{ backgroundColor: "#d63d52", borderColor: "#d63d52" }}>
-							Login
+							{loading ? "Logging in..." : "Login"}
 						</Button>
 					</Form.Item>
 
