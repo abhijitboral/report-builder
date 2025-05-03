@@ -39,11 +39,8 @@ const DynamcLogin = () => {
 			// Save the token in localStorage or sessionStorage
 			localStorage.setItem("authToken", response.data.token);
 			if (response.data.token) {
-				navigate("/dashboard");
-			} else {
-				console.log("not");
+				navigate("/dashboard"); // Redirect to the dashboard or home page
 			}
-			// Redirect to the dashboard or home page
 		} catch (error) {
 			setError(error.response ? error.response.data.message : "Login failed");
 			message.error(
