@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 import {
 	Form,
 	Input,
@@ -14,6 +15,7 @@ import logo from "../assets/react.svg";
 
 const { Link, Title } = Typography;
 const DynamcLogin = () => {
+	console.log(API_URL);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
@@ -24,13 +26,10 @@ const DynamcLogin = () => {
 		setError(null); // Reset any previous errors
 		try {
 			// Make the POST request to your login endpoint
-			const response = await axios.post(
-				"http://localhost:3000/api/users/login",
-				{
-					email,
-					password,
-				}
-			);
+			const response = await axios.post(`${API_URL}/users/login`, {
+				email,
+				password,
+			});
 
 			// Handle success (e.g., save the token, redirect, etc.)
 			message.success("Login successful!");
@@ -39,7 +38,7 @@ const DynamcLogin = () => {
 			// Save the token in localStorage or sessionStorage
 			localStorage.setItem("authToken", response.data.token);
 			if (response.data.token) {
-				navigate("/dashboard"); // Redirect to the dashboard or home page
+				navigate("/users"); // Redirect to the dashboard or home page
 			}
 		} catch (error) {
 			setError(error.response ? error.response.data.message : "Login failed");

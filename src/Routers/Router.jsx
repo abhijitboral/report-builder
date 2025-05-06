@@ -5,6 +5,7 @@ import DynamicLayout from "../components/DynamicLayout";
 import DynamicSignup from "../components/DynamicSignup";
 import AddMerchant from "../components/merchant/AddMerchant";
 import DynamicContent from "../components/DynamicContent";
+import DynamicUsers from "../components/DynamicUsers";
 
 const DynamicRouter = () => {
 	return (
@@ -14,6 +15,7 @@ const DynamicRouter = () => {
 			<Route path="/" element={<DynamicLayout />}>
 				<Route path="/" element={<Sidebar />} />
 				<Route path="/dashboard" element={<DynamicContent />} />
+				<Route path="/users" element={<DynamicUsers />} />
 				<Route path="/add_merchant" element={<AddMerchant />} />
 			</Route>
 		</Routes>

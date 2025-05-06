@@ -1,11 +1,53 @@
-import React from "react";
-import { Form, Input, Button, Checkbox, Typography, Space } from "antd";
+import React, { useState } from "react";
+import {
+	Form,
+	Input,
+	Button,
+	Checkbox,
+	Typography,
+	Space,
+	message,
+} from "antd";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import logo from "../assets/react.svg";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const { Link, Title } = Typography;
 const DynamcSignup = () => {
-	const onFinish = (values) => {
-		console.log("Success:", values);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
+	const navigate = useNavigate();
+	const onFinish = async (values) => {
+		//console.log("Success:", values);
+		const { username, email, password } = values;
+		setLoading(true);
+		setError(null);
+		try {
+			// Make the POST request to your login endpoint
+			const response = await axios.post(`${API_URL}/users/register`, {
+				username,
+				email,
+				password,
+			});
+			if (response.status === 201) {
+				message.success("Your account has been created!");
+				navigate("/users");
+			}
+		} catch (error) {
+			setError(
+				error.response
+					? error.response.data.error
+					: "Opps! someting went wrong. Please try again."
+			);
+			message.error(
+				error.response
+					? error.response.data.error
+					: "Opps! someting went wrong. Please try again."
+			);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const onFinishFailed = (errorInfo) => {
@@ -21,7 +63,6 @@ const DynamcSignup = () => {
 				alignItems: "center",
 				background: "#f9f9f9",
 			}}>
-			{/* Logo Section */}
 			<div style={{ textAlign: "center", marginBottom: 24 }}>
 				{/* Replace with your actual logo */}
 				<img src={logo} alt="Logo" style={{ width: 80, marginBottom: 16 }} />
@@ -40,6 +81,7 @@ const DynamcSignup = () => {
 					borderRadius: 16,
 					boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
 				}}>
+				{error && <p style={{ color: "red" }}>{error}</p>}
 				<Form
 					name="login"
 					initialValues={{ remember: true }}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Layout, Menu, Button, DatePicker, Select, Table, Tabs } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import DynamicLogout from "./DynamicLogout";
 const { Header } = Layout;
 const DynamicHeader = () => {
 	const [selectedAttribute, setSelectedAttribute] = useState("visits");
@@ -45,9 +46,10 @@ const DynamicHeader = () => {
 				</Select>
 			</div>
 			<div>
-				<Button type="primary" icon={<PlusOutlined />}>
+				{/* <Button type="primary" icon={<PlusOutlined />}>
 					Create Asset
-				</Button>
+				</Button> */}
+				<DynamicLogout />
 			</div>
 		</Header>
 	);
