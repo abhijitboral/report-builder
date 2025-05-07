@@ -11,12 +11,14 @@ export const UserProvider = ({ children }) => {
 	const fetchUsers = async () => {
 		try {
 			const token = localStorage.getItem("authToken");
-			const res = await axios.get(`${API_URL}/users/`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			setUsers(res.data);
+			if (token) {
+				const res = await axios.get(`${API_URL}/users/`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setUsers(res.data);
+			}
 		} catch (err) {
 			console.error("Failed to fetch users:", err);
 		} finally {

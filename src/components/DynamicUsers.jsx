@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useUsers } from "./contexts/UserContext";
 import { Layout, Button, Table, Tabs, Popconfirm, Spin, message } from "antd";
 import axios from "axios";
@@ -7,6 +8,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const DynamicUsers = () => {
 	const { users, loading, fetchUsers } = useUsers();
+	const navigate = useNavigate();
 
 	const handleDelete = async (id) => {
 		console.log(`${API_URL}/users/delete/${id}`);
@@ -25,6 +27,9 @@ const DynamicUsers = () => {
 		}
 	};
 
+	useEffect(() => {
+		fetchUsers();
+	}, []);
 	// Table columns definition
 	const tableColumns = [
 		{ title: "Username", dataIndex: "username", key: "username" },
@@ -36,7 +41,9 @@ const DynamicUsers = () => {
 			key: "action",
 			render: (_, users) => (
 				<span>
-					<Button type="link" onClick={() => onEdit(users)}>
+					<Button
+						type="link"
+						onClick={() => navigate(`/users/edit/${users.id}`)}>
 						Edit
 					</Button>
 					<Popconfirm
