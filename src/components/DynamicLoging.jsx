@@ -12,10 +12,11 @@ import {
 	message,
 } from "antd";
 import logo from "../assets/react.svg";
+import { useAuth } from "./contexts/AuthContext";
 
 const { Link, Title } = Typography;
 const DynamcLogin = () => {
-	console.log(API_URL);
+	const { login } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
@@ -26,25 +27,31 @@ const DynamcLogin = () => {
 		setError(null); // Reset any previous errors
 		try {
 			// Make the POST request to your login endpoint
-			const response = await axios.post(`${API_URL}/users/login`, {
+			const result = await axios.post(`${API_URL}/users/login`, {
 				email,
 				password,
 			});
 
 			// Handle success (e.g., save the token, redirect, etc.)
 			message.success("Login successful!");
-			console.log("Login Successful:", response.data);
+			delete result.data.response.data["password"];
+			console.log("Login Successful:", result.data.response.data.role);
 
 			// Save the token in localStorage or sessionStorage
-			localStorage.setItem("authToken", response.data.token);
-			if (response.data.token) {
-				navigate("/users"); // Redirect to the dashboard or home page
+			localStorage.setItem("authToken", result.data.response.token);
+			localStorage.setItem("user", JSON.stringify(result.data.response.data));
+
+			if (result.data.response.token) {
+				login(result.data.response.token, result.data.response.data);
+				if (result.data.response.data.role === "user") {
+					navigate("/dashboard");
+				} else {
+					navigate("/users");
+				}
 			}
 		} catch (error) {
-			setError(error.response ? error.response.data.message : "Login failed");
-			message.error(
-				error.response ? error.response.data.message : "Login failed"
-			);
+			setError(error.result ? error.result.data.message : "Login failed");
+			message.error(error.result ? error.result.data.message : "Login failed");
 		} finally {
 			setLoading(false);
 		}

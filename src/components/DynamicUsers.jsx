@@ -3,22 +3,28 @@ import { useNavigate } from "react-router-dom";
 import { useUsers } from "./contexts/UserContext";
 import { Layout, Button, Table, Tabs, Popconfirm, Spin, message } from "antd";
 import axios from "axios";
+import { useAuth } from "./contexts/AuthContext";
 const { Content } = Layout;
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const DynamicUsers = () => {
 	const { users, loading, fetchUsers } = useUsers();
 	const navigate = useNavigate();
+	const { token } = useAuth();
 
 	const handleDelete = async (id) => {
-		console.log(`${API_URL}/users/delete/${id}`);
+		console.log(token);
+		//return false;
 		try {
-			const token = localStorage.getItem("authToken");
-			await axios.delete(`${API_URL}/users/delete/${id}`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
+			await axios.post(
+				`${API_URL}/users/delete/${id}`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 			message.success("User deleted successfully");
 			fetchUsers(); // refresh list
 		} catch (error) {

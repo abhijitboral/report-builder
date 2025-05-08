@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Layout, Form, Input, Button, Select, Typography } from "antd";
+import { Layout, Form, Input, Button, Select, Typography, message } from "antd";
 import axios from "axios";
+import { useAuth } from "./contexts/AuthContext";
 
 const { Title } = Typography;
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EditUser = () => {
-	const token = localStorage.getItem("authToken");
-	//const [user, setUser] = useState([]);
+	const [user, setUser] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [form] = Form.useForm();
+	const { token } = useAuth();
 	const getUser = async () => {
 		try {
 			if (token) {
@@ -22,16 +23,15 @@ const EditUser = () => {
 					},
 				});
 				console.log(res.data);
-				form.setFieldsValue({
-					username: res.data.username,
-					email: res.data.email,
-					role: res.data.role,
-				});
+				form.setFieldsValue(res.data);
 			} else {
 				navigate("/");
 			}
 		} catch (error) {
 			console.error("Failed to fetch users:", error);
+			if (error.response.data.message === "Invalid token") {
+				navigate("/");
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -40,8 +40,33 @@ const EditUser = () => {
 		getUser();
 	}, [id, form, token]);
 
-	const onFinish = (values) => {
-		console.log("Success:", values);
+	const onFinish = async (values) => {
+		console.log("Success:", `${token}`);
+		//return false;
+		try {
+			if (token) {
+				const res = await axios.post(`${API_URL}/users/edit/${id}`, values, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				console.log(res.data.message);
+				message.success("User updated successfully");
+				setTimeout(() => {
+					navigate("/users");
+				}, 2000);
+			} else {
+				navigate("/");
+			}
+		} catch (error) {
+			message.error("Failed to update user");
+			console.error("Failed to fetch users:", error);
+			if (error.response.data.message === "Invalid token") {
+				navigate("/");
+			}
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const onFinishFailed = (errorInfo) => {

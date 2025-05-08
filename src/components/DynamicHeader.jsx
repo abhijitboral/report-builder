@@ -1,11 +1,25 @@
 import React, { useState } from "react";
-import { Layout, Menu, Button, DatePicker, Select, Table, Tabs } from "antd";
+import {
+	Layout,
+	Menu,
+	Button,
+	DatePicker,
+	Select,
+	Table,
+	Tabs,
+	Typography,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import DynamicLogout from "./DynamicLogout";
+import { useAuth } from "./contexts/AuthContext";
 const { Header } = Layout;
+const { Text } = Typography;
 const DynamicHeader = () => {
 	const [selectedAttribute, setSelectedAttribute] = useState("visits");
+	const user = useAuth();
+	console.log("header" + JSON.stringify(user));
+	console.log("header2" + user.userData.username);
 	const handleAttributeChange = (value) => {
 		setSelectedAttribute(value);
 	};
@@ -44,6 +58,17 @@ const DynamicHeader = () => {
 					<Option value="exitTime">Use Exit Time</Option>
 					<Option value="duration">Use Duration</Option>
 				</Select>
+			</div>
+			<div>
+				<Header>
+					<Text
+						strong
+						style={{
+							color: "#fff",
+						}}>
+						Welcome, {user.userData.username && user.userData.username}
+					</Text>
+				</Header>
 			</div>
 			<div>
 				{/* <Button type="primary" icon={<PlusOutlined />}>

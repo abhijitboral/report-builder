@@ -4,6 +4,7 @@ const DynamicLogout = () => {
 	const navigate = useNavigate();
 	const handleLogout = () => {
 		localStorage.removeItem("authToken");
+		localStorage.removeItem("user");
 		message.success("Logged out successfully");
 		navigate("/");
 	};
