@@ -40,6 +40,7 @@ const DynamcLogin = () => {
 			// Save the token in localStorage or sessionStorage
 			localStorage.setItem("authToken", result.data.response.token);
 			localStorage.setItem("user", JSON.stringify(result.data.response.data));
+			localStorage.setItem("role", result.data.response.data.role);
 
 			if (result.data.response.token) {
 				login(result.data.response.token, result.data.response.data);
@@ -50,8 +51,11 @@ const DynamcLogin = () => {
 				}
 			}
 		} catch (error) {
-			setError(error.result ? error.result.data.message : "Login failed");
-			message.error(error.result ? error.result.data.message : "Login failed");
+			console.log(error.response.data.message);
+			setError(error.response ? error.response.data.message : "Login failed");
+			message.error(
+				error.response ? error.response.data.message : "Login failed"
+			);
 		} finally {
 			setLoading(false);
 		}
