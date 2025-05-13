@@ -43,7 +43,11 @@ const DynamcLogin = () => {
 			localStorage.setItem("role", result.data.response.data.role);
 
 			if (result.data.response.token) {
-				login(result.data.response.token, result.data.response.data);
+				login(
+					result.data.response.token,
+					result.data.response.data,
+					result.data.response.data.role
+				);
 				if (result.data.response.data.role === "user") {
 					navigate("/dashboard");
 				} else {

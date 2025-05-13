@@ -7,6 +7,8 @@ import AddMerchant from "../components/merchant/AddMerchant";
 import DynamicContent from "../components/DynamicContent";
 import DynamicUsers from "../components/DynamicUsers";
 import EditUser from "../components/EditUser";
+import PrivateRoute from "./PrivateRoute";
+import UserSettings from "../components/UserSettings";
 
 const DynamicRouter = () => {
 	return (
@@ -16,9 +18,17 @@ const DynamicRouter = () => {
 			<Route path="/" element={<DynamicLayout />}>
 				<Route path="/" element={<Sidebar />} />
 				<Route path="/dashboard" element={<DynamicContent />} />
-				<Route path="/users" element={<DynamicUsers />} />
-				<Route path="/add_merchant" element={<AddMerchant />} />
+				<Route
+					path="/users"
+					element={
+						<PrivateRoute roles={["admin"]}>
+							<DynamicUsers />
+						</PrivateRoute>
+					}
+				/>
 				<Route path="/users/edit/:id" element={<EditUser />} />
+				<Route path="/add_merchant" element={<AddMerchant />} />
+				<Route path="/settings" element={<UserSettings />} />
 			</Route>
 		</Routes>
 	);
