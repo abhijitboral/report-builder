@@ -15,11 +15,12 @@ import DynamicLogout from "./DynamicLogout";
 import { useAuth } from "./contexts/AuthContext";
 const { Header } = Layout;
 const { Text } = Typography;
+const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 const DynamicHeader = () => {
 	const [selectedAttribute, setSelectedAttribute] = useState("visits");
 	const user = useAuth();
-	console.log("header" + JSON.stringify(user));
-	console.log("header2" + user.userData.username);
+	//console.log("header" + JSON.stringify(user));
+	//console.log("header2" + user.userData.username);
 	const handleAttributeChange = (value) => {
 		setSelectedAttribute(value);
 	};
@@ -66,6 +67,14 @@ const DynamicHeader = () => {
 						style={{
 							color: "#fff",
 						}}>
+						{user.userData.profileImage && (
+							<img
+								src={`${BACKEND_API_URL}/uploads/${user.userData.profileImage}`}
+								alt="Profile"
+								width="25"
+								style={{ borderRadius: "50%" }}
+							/>
+						)}
 						Welcome, {user.userData.username && user.userData.username}
 					</Text>
 				</Header>

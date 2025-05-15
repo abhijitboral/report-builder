@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 	);
 
 	const login = (token, user_data, user_role) => {
-		console.log("login function " + JSON.stringify(user_data));
+		//console.log("login function " + JSON.stringify(user_data));
 		setToken(token);
 		setuserData(user_data);
 		setRole(user_role);

@@ -9,7 +9,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EditUser = () => {
 	const [user, setUser] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [form] = Form.useForm();
@@ -42,7 +42,7 @@ const EditUser = () => {
 
 	const onFinish = async (values) => {
 		console.log("Success:", `${token}`);
-		//return false;
+		setLoading(true);
 		try {
 			if (token) {
 				const res = await axios.post(`${API_URL}/users/edit/${id}`, values, {
@@ -52,9 +52,10 @@ const EditUser = () => {
 				});
 				console.log(res.data.message);
 				message.success("User updated successfully");
-				setTimeout(() => {
+				navigate("/users");
+				/* setTimeout(() => {
 					navigate("/users");
-				}, 2000);
+				}, 2000); */
 			} else {
 				navigate("/");
 			}
@@ -139,7 +140,7 @@ const EditUser = () => {
 								block
 								size="large"
 								style={{ backgroundColor: "#d63d52", borderColor: "#d63d52" }}>
-								Update
+								{loading ? "Updating...." : "Update"}
 							</Button>
 						</Form.Item>
 					</Form>
