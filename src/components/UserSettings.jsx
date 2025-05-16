@@ -12,6 +12,7 @@ import {
 	Image,
 	Card,
 	Spin,
+	Space,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -90,8 +91,16 @@ const UserSettings = () => {
 		},
 		onChange(info) {
 			console.log(JSON.stringify(info));
+			let file_name = info.fileList[0]?.response?.imageUrl;
+			file_name = file_name.split("/").pop();
+			console.log("file name : " + file_name);
 			if (info.file.status === "done") {
-				setUupload("uploaded successfully");
+				const updatedUserData = {
+					...userData,
+					profileImage: file_name,
+				};
+				login(token, updatedUserData, userData.role);
+				setUupload(`${info.file.name} file uploaded successfully`);
 				message.success(`${info.file.name} file uploaded successfully`);
 			} else if (info.file.status === "error") {
 				setUupload("file upload failed.");
@@ -163,23 +172,27 @@ const UserSettings = () => {
 								<Input placeholder="role" size="large" readOnly />
 							</Form.Item> */}
 							<Form.Item>
-								<Image
-									src={`${BACKEND_API_URL}/uploads/${userData.profileImage}`}
-									alt="Profile"
-									width="80"
-									style={{
-										borderRadius: "50%",
-										objectFit: "cover",
-										marginBottom: 16,
-									}}
-								/>
+								<Space>
+									{userData.profileImage && (
+										<Image
+											src={`${BACKEND_API_URL}/uploads/${userData.profileImage}`}
+											alt="Profile"
+											width="80"
+											style={{
+												borderRadius: "50%",
+												objectFit: "cover",
+												marginBottom: 16,
+											}}
+										/>
+									)}
+								</Space>
+
 								<Upload {...props} accept="image/*" showUploadList={false}>
 									<Button icon={<UploadOutlined />}>
 										Upload Profile Image
 									</Button>
 								</Upload>
 							</Form.Item>
-							<span>{upload}</span>
 
 							<Form.Item>
 								<Button

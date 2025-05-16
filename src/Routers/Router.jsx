@@ -9,12 +9,14 @@ import DynamicUsers from "../components/DynamicUsers";
 import EditUser from "../components/EditUser";
 import PrivateRoute from "./PrivateRoute";
 import UserSettings from "../components/UserSettings";
+import ResetPassword from "../components/ResetPassword";
 
 const DynamicRouter = () => {
 	return (
 		<Routes>
 			<Route index element={<DynamcLogin />} />
 			<Route path="/signup" element={<DynamicSignup />} />
+			<Route path="/reset-password" element={<ResetPassword />} />
 			<Route path="/" element={<DynamicLayout />}>
 				<Route path="/" element={<Sidebar />} />
 				<Route path="/dashboard" element={<DynamicContent />} />

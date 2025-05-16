@@ -8,6 +8,8 @@ import {
 	Table,
 	Tabs,
 	Typography,
+	Avatar,
+	Space,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -61,22 +63,32 @@ const DynamicHeader = () => {
 				</Select>
 			</div>
 			<div>
-				<Header>
-					<Text
-						strong
-						style={{
-							color: "#fff",
-						}}>
+				<Header
+					style={{
+						backgroundColor: "#001529",
+						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
+						padding: "0 24px",
+						height: "64px",
+					}}>
+					<Space>
 						{user.userData.profileImage && (
-							<img
+							<Avatar
 								src={`${BACKEND_API_URL}/uploads/${user.userData.profileImage}`}
 								alt="Profile"
 								width="25"
 								style={{ borderRadius: "50%" }}
 							/>
 						)}
-						Welcome, {user.userData.username && user.userData.username}
-					</Text>
+						<Text
+							strong
+							style={{
+								color: "#fff",
+							}}>
+							Welcome, {user.userData.username && user.userData.username}
+						</Text>
+					</Space>
 				</Header>
 			</div>
 			<div>
