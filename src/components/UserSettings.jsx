@@ -24,7 +24,7 @@ const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
 const UserSettings = () => {
 	const [user, setUser] = useState([]);
-	const [upload, setUupload] = useState();
+	const [uploadStatus, SetUploadStatus] = useState();
 	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 	const [form] = Form.useForm();
@@ -32,7 +32,7 @@ const UserSettings = () => {
 	const getUser = async () => {
 		try {
 			if (token) {
-				console.log("userdata : " + JSON.stringify(userData));
+				console.log("get userdata : " + JSON.stringify(userData));
 				form.setFieldsValue(userData);
 			} else {
 				navigate("/");
@@ -63,6 +63,7 @@ const UserSettings = () => {
 				});
 				//console.log("role - " + userData.role);
 				login(token, res.data.user, userData.role);
+				//localStorage.setItem("user", JSON.stringify(res.data.user));
 				message.success("User updated successfully");
 				navigate("/users");
 			} else {
@@ -90,21 +91,32 @@ const UserSettings = () => {
 			Authorization: `Bearer ${token}`,
 		},
 		onChange(info) {
-			console.log(JSON.stringify(info));
-			let file_name = info.fileList[0]?.response?.imageUrl;
-			file_name = file_name.split("/").pop();
-			console.log("file name : " + file_name);
-			if (info.file.status === "done") {
-				const updatedUserData = {
-					...userData,
-					profileImage: file_name,
-				};
-				login(token, updatedUserData, userData.role);
-				setUupload(`${info.file.name} file uploaded successfully`);
-				message.success(`${info.file.name} file uploaded successfully`);
-			} else if (info.file.status === "error") {
-				setUupload("file upload failed.");
-				message.error(`${info.file.name} file upload failed.`);
+			//console.log("Info " + JSON.stringify(info));
+			try {
+				let file_name = info.fileList[0]?.response?.imageUrl;
+				file_name = file_name.split("/").pop();
+				console.log("file name : " + file_name);
+				if (info.file.status === "done") {
+					const updatedUserData = {
+						...userData,
+						profileImage: file_name,
+					};
+					console.log("After upload" + JSON.stringify(updatedUserData));
+					login(token, updatedUserData, userData.role);
+					SetUploadStatus(`${info.file.name} file uploaded successfully`);
+					message.success(`${info.file.name} file uploaded successfully`);
+				} else if (info.file.status === "error") {
+					SetUploadStatus("file upload failed.");
+					message.error(`${info.file.name} file upload failed.`);
+				}
+			} catch (error) {
+				if (error.message === "Invalid token") {
+					message.error("Failed to update user");
+					console.error("Failed to fetch users:", error);
+					navigate("/");
+				}
+			} finally {
+				setLoading(false);
 			}
 		},
 	};
@@ -117,7 +129,6 @@ const UserSettings = () => {
 					textAlign: "center",
 					padding: 24,
 				}}>
-				{loading && <Spin tip="Loading users..." />};
 				<div
 					style={{
 						minHeight: "100vh",
@@ -144,6 +155,7 @@ const UserSettings = () => {
 							borderRadius: 16,
 							boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
 						}}>
+						<Spin spinning={loading} tip="Loading users..." />
 						<Form
 							name="login"
 							form={form}
@@ -187,11 +199,16 @@ const UserSettings = () => {
 									)}
 								</Space>
 
-								<Upload {...props} accept="image/*" showUploadList={false}>
+								<Upload
+									{...props}
+									accept="image/*"
+									showUploadList={false}
+									beforeUpload={() => true}>
 									<Button icon={<UploadOutlined />}>
 										Upload Profile Image
 									</Button>
 								</Upload>
+								<p>{uploadStatus}</p>
 							</Form.Item>
 
 							<Form.Item>
@@ -204,7 +221,8 @@ const UserSettings = () => {
 										backgroundColor: "#d63d52",
 										borderColor: "#d63d52",
 										marginTop: 20,
-									}}>
+									}}
+									loading={loading}>
 									{loading ? "Updating...." : "Update your profile"}
 								</Button>
 							</Form.Item>

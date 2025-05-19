@@ -11,8 +11,16 @@ const DynamicLayout = () => {
 		<Layout style={{ minHeight: "100vh" }}>
 			<Sidebar />
 			<Layout className="site-layout">
-				<DynamicHeader />
-				{isAuthenticated ? <Outlet /> : <Navigate to="/" replace />}
+				{/* <DynamicHeader />
+				{isAuthenticated ? <Outlet /> : <Navigate to="/" replace />} */}
+				{isAuthenticated ? (
+					<>
+						<DynamicHeader />
+						<Outlet />
+					</>
+				) : (
+					<Navigate to="/" replace />
+				)}
 			</Layout>
 		</Layout>
 	);

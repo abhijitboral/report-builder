@@ -34,8 +34,8 @@ const DynamicMenu = () => {
 	return (
 		<>
 			<Menu mode="horizontal" theme="light" items={items} />
-			<Menu mode="horizontal">
-				{/* <Menu.Item key="mail" icon={<FunnelPlotOutlined />}>
+			{/* <Menu mode="horizontal">
+				<Menu.Item key="mail" icon={<FunnelPlotOutlined />}>
 				Reporting
 			</Menu.Item>
 			<Menu.Item key="app" icon={<AppstoreOutlined />}>
@@ -48,17 +48,17 @@ const DynamicMenu = () => {
 				<Menu.Item key="setting:1">Option 1</Menu.Item>
 				<Menu.Item key="setting:2">Option 2</Menu.Item>
 			</SubMenu> */}
-				{/* <Menu.Item key="alipay" icon={<SettingOutlined />}>
+			{/* <Menu.Item key="alipay" icon={<SettingOutlined />}>
 					<NavLink to="/add_merchant" rel="noopener noreferrer">
 						Add Merchant
 					</NavLink>
 				</Menu.Item> */}
-				{/* <Menu.Item key="upload" icon={<SettingOutlined />}>
+			{/* <Menu.Item key="upload" icon={<SettingOutlined />}>
 					<NavLink to="/" rel="noopener noreferrer">
 						Upload
 					</NavLink>
 				</Menu.Item> */}
-			</Menu>
+			{/* </Menu> */}
 			{/* <Menu mode="horizontal">
 				<NavLink
 					to="/dashboard"
