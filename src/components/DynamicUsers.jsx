@@ -38,7 +38,7 @@ const DynamicUsers = () => {
 	};
 
 	useEffect(() => {
-		fetchUsers();
+		if (token) fetchUsers();
 	}, []);
 	// Table columns definition
 	const tableColumns = [
@@ -97,7 +97,7 @@ const DynamicUsers = () => {
 			),
 		},
 	];
-	if (loading) return <Spin tip="Loading users..." />;
+	/* if (loading) return <Spin tip="Loading users..." />; */
 	if (loader) return <Spin tip="Deleting users..." />;
 	return (
 		<Content
@@ -107,11 +107,13 @@ const DynamicUsers = () => {
 				minHeight: 280,
 				backgroundColor: "#fff",
 			}}>
-			<Tabs
-				defaultActiveKey="1"
-				items={tabItems}
-				style={{ marginBottom: 16 }}
-			/>
+			<Spin spinning={loading} tip="Loading users...">
+				<Tabs
+					defaultActiveKey="1"
+					items={tabItems}
+					style={{ marginBottom: 16 }}
+				/>
+			</Spin>
 		</Content>
 	);
 };

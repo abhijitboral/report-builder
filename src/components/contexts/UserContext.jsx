@@ -14,7 +14,6 @@ export const UserProvider = ({ children }) => {
 
 	const fetchUsers = async () => {
 		try {
-			//const token = localStorage.getItem("authToken");
 			if (token) {
 				const res = await axios.get(`${API_URL}/users/`, {
 					headers: {
@@ -32,9 +31,11 @@ export const UserProvider = ({ children }) => {
 			setLoading(false);
 		}
 	};
-	useEffect(() => {
-		fetchUsers();
-	}, []);
+	/* useEffect(() => {
+		if (token) {
+			fetchUsers();
+		}
+	}, [token]); */
 	return (
 		<UserContext.Provider value={{ users, loading, fetchUsers }}>
 			{children}

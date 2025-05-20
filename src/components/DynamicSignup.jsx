@@ -1,15 +1,8 @@
-import React, { useState } from "react";
-import {
-	Form,
-	Input,
-	Button,
-	Checkbox,
-	Typography,
-	Space,
-	message,
-} from "antd";
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Typography, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "./contexts/AuthContext";
 import logo from "../assets/react.svg";
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -18,13 +11,17 @@ const DynamcSignup = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
+	const { token } = useAuth();
+	useEffect(() => {
+		if (token) {
+			navigate("/dashboard");
+		}
+	}, [token]);
 	const onFinish = async (values) => {
-		//console.log("Success:", values);
 		const { username, email, password } = values;
 		setLoading(true);
 		setError(null);
 		try {
-			// Make the POST request to your login endpoint
 			const response = await axios.post(`${API_URL}/users/register`, {
 				username,
 				email,
@@ -157,5 +154,4 @@ const DynamcSignup = () => {
 		</div>
 	);
 };
-
 export default DynamcSignup;

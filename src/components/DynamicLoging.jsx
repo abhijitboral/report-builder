@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -16,10 +16,19 @@ import { useAuth } from "./contexts/AuthContext";
 
 const { Link, Title } = Typography;
 const DynamcLogin = () => {
-	const { login } = useAuth();
+	const { login, token } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
+	console.log("token : " + token);
+	//return false;
+
+	useEffect(() => {
+		if (token) {
+			navigate("/dashboard");
+		}
+	}, [token]);
+
 	const onFinish = async (values) => {
 		//console.log("Success:", values);
 		const { email, password } = values;
