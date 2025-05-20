@@ -102,6 +102,7 @@ const UserSettings = () => {
 						profileImage: file_name,
 					};
 					console.log("After upload" + JSON.stringify(updatedUserData));
+					//localStorage.removeItem("user");
 					login(token, updatedUserData, userData.role);
 					SetUploadStatus(`${info.file.name} file uploaded successfully`);
 					message.success(`${info.file.name} file uploaded successfully`);
@@ -155,78 +156,82 @@ const UserSettings = () => {
 							borderRadius: 16,
 							boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
 						}}>
-						<Spin spinning={loading} tip="Loading users..." />
-						<Form
-							name="login"
-							form={form}
-							initialValues={{ remember: true }}
-							onFinish={onFinish}
-							onFinishFailed={onFinishFailed}
-							layout="vertical">
-							<Form.Item
-								name="username"
-								rules={[
-									{ required: true, message: "Please enter your user name!" },
-								]}>
-								<Input placeholder="User Name" size="large" value="test" />
-							</Form.Item>
-							<Form.Item
-								name="email"
-								rules={[
-									{ required: true, message: "Please enter your email!" },
-									{ type: "email", message: "The input is not valid E-mail!" },
-								]}>
-								<Input placeholder="Email" size="large" />
-							</Form.Item>
-							{/* <Form.Item
+						<Spin spinning={loading} tip="Loading users...">
+							<Form
+								name="login"
+								form={form}
+								initialValues={{ remember: true }}
+								onFinish={onFinish}
+								onFinishFailed={onFinishFailed}
+								layout="vertical">
+								<Form.Item
+									name="username"
+									rules={[
+										{ required: true, message: "Please enter your user name!" },
+									]}>
+									<Input placeholder="User Name" size="large" value="test" />
+								</Form.Item>
+								<Form.Item
+									name="email"
+									rules={[
+										{ required: true, message: "Please enter your email!" },
+										{
+											type: "email",
+											message: "The input is not valid E-mail!",
+										},
+									]}>
+									<Input placeholder="Email" size="large" />
+								</Form.Item>
+								{/* <Form.Item
 								name="role"
 								rules={[{ required: true, message: "Please select a Role!" }]}>
 								<Input placeholder="role" size="large" readOnly />
 							</Form.Item> */}
-							<Form.Item>
-								<Space>
-									{userData.profileImage && (
-										<Image
-											src={`${BACKEND_API_URL}/uploads/${userData.profileImage}`}
-											alt="Profile"
-											width="80"
-											style={{
-												borderRadius: "50%",
-												objectFit: "cover",
-												marginBottom: 16,
-											}}
-										/>
-									)}
-								</Space>
+								<Form.Item>
+									<Space>
+										{userData.profileImage && (
+											<Image
+												src={`${BACKEND_API_URL}/uploads/${userData.profileImage}`}
+												alt="Profile"
+												width="80"
+												style={{
+													borderRadius: "50%",
+													objectFit: "cover",
+													marginBottom: 16,
+												}}
+											/>
+										)}
+									</Space>
 
-								<Upload
-									{...props}
-									accept="image/*"
-									showUploadList={false}
-									beforeUpload={() => true}>
-									<Button icon={<UploadOutlined />}>
-										Upload Profile Image
+									<Upload
+										{...props}
+										accept="image/*"
+										showUploadList={false}
+										beforeUpload={() => true}>
+										<Button icon={<UploadOutlined />}>
+											Upload Profile Image
+										</Button>
+									</Upload>
+									<p>{uploadStatus}</p>
+								</Form.Item>
+
+								<Form.Item>
+									<Button
+										type="primary"
+										htmlType="submit"
+										block
+										size="large"
+										style={{
+											backgroundColor: "#d63d52",
+											borderColor: "#d63d52",
+											marginTop: 20,
+										}}
+										loading={loading}>
+										{loading ? "Updating...." : "Update your profile"}
 									</Button>
-								</Upload>
-								<p>{uploadStatus}</p>
-							</Form.Item>
-
-							<Form.Item>
-								<Button
-									type="primary"
-									htmlType="submit"
-									block
-									size="large"
-									style={{
-										backgroundColor: "#d63d52",
-										borderColor: "#d63d52",
-										marginTop: 20,
-									}}
-									loading={loading}>
-									{loading ? "Updating...." : "Update your profile"}
-								</Button>
-							</Form.Item>
-						</Form>
+								</Form.Item>
+							</Form>
+						</Spin>
 					</div>
 				</div>
 			</Card>

@@ -17,12 +17,12 @@ import DynamicLogout from "./DynamicLogout";
 import { useAuth } from "./contexts/AuthContext";
 const { Header } = Layout;
 const { Text } = Typography;
+const { Option } = Select;
 const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 const DynamicHeader = () => {
 	const [selectedAttribute, setSelectedAttribute] = useState("visits");
 	const user = useAuth();
-	//console.log("header" + JSON.stringify(user));
-	//console.log("header2" + user.userData.username);
+	console.log("Users" + JSON.stringify(user));
 	const handleAttributeChange = (value) => {
 		setSelectedAttribute(value);
 	};

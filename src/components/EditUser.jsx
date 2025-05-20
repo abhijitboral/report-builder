@@ -5,6 +5,7 @@ import axios from "axios";
 import { useAuth } from "./contexts/AuthContext";
 
 const { Title } = Typography;
+const { Option } = Select;
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EditUser = () => {
