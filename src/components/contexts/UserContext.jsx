@@ -24,9 +24,9 @@ export const UserProvider = ({ children }) => {
 			}
 		} catch (err) {
 			console.error("Failed to fetch users:", err);
-			if (err.response.data.message === "Invalid token") {
+			/* if (err.response.data.message === "Invalid token") {
 				navigate("/");
-			}
+			} */
 		} finally {
 			setLoading(false);
 		}

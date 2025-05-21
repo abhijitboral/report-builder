@@ -14,7 +14,7 @@ const DynamcSignup = () => {
 	const { token } = useAuth();
 	useEffect(() => {
 		if (token) {
-			navigate("/dashboard");
+			//navigate("/dashboard");
 		}
 	}, [token]);
 	const onFinish = async (values) => {

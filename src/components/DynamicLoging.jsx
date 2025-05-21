@@ -25,7 +25,7 @@ const DynamcLogin = () => {
 
 	useEffect(() => {
 		if (token) {
-			navigate("/dashboard");
+			//navigate("/dashboard");
 		}
 	}, [token]);
 

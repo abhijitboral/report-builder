@@ -39,9 +39,9 @@ const UserSettings = () => {
 			}
 		} catch (error) {
 			console.error("Failed to fetch users:", error);
-			if (error.response.data.message === "Invalid token") {
+			/* if (error.response.data.message === "Invalid token") {
 				navigate("/");
-			}
+			} */
 		} finally {
 			setLoading(false);
 		}

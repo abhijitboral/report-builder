@@ -1,4 +1,4 @@
-import { Outlet, NavLink, Link } from "react-router-dom";
+import { Outlet, NavLink, Link, useNavigate } from "react-router-dom";
 import { Layout, Menu, Button, DatePicker, Select, Table, Tabs } from "antd";
 import { useAuth } from "./contexts/AuthContext";
 import {
@@ -13,6 +13,7 @@ import {
 const { SubMenu } = Menu;
 
 const DynamicMenu = () => {
+	const navigate = useNavigate();
 	const { role } = useAuth();
 	const items = [
 		{
@@ -33,7 +34,26 @@ const DynamicMenu = () => {
 	].filter(Boolean);
 	return (
 		<>
-			<Menu mode="horizontal" theme="light" items={items} />
+			{/* <Menu mode="horizontal" theme="light" items={items} /> */}
+			<Menu
+				mode="inline"
+				theme="dark"
+				defaultSelectedKeys={["dashboard"]}
+				style={{ height: "100%", borderRight: 0 }}
+				onClick={({ key }) => navigate(key)}>
+				<Menu.Item key="/dashboard" icon={<HomeOutlined />}>
+					Dashboard
+				</Menu.Item>
+				{role === "admin" && (
+					<Menu.Item key="/users" icon={<UserOutlined />}>
+						Users
+					</Menu.Item>
+				)}
+
+				<Menu.Item key="/settings" icon={<SettingOutlined />}>
+					Settings
+				</Menu.Item>
+			</Menu>
 			{/* <Menu mode="horizontal">
 				<Menu.Item key="mail" icon={<FunnelPlotOutlined />}>
 				Reporting
